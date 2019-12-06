@@ -100,11 +100,11 @@ test_that("can draw a wire path", {
   grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path)
 
   expected <- rbind(
-    c(1,0,0,0,0),
-    c(1,0,0,0,0),
-    c(1,0,0,1,1),
-    c(1,0,0,0,1),
-    c(1,1,1,1,1)
+    c(12,0,0,0,0),
+    c(11,0,0,0,0),
+    c(10,0,0,1,2),
+    c(9, 0,0,0,3),
+    c(8, 7,6,5,4)
   )
 
   expect_equal(grid, expected)
@@ -118,6 +118,8 @@ test_that("can identify wire crossings", {
 
   grid2 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
   grid3 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
+  grid2[grid2!=0] <- 1
+  grid3[grid3!=0] <- 1
 
   expected <- rbind(
     c(1,1,1,1,1,1,1,0,0),
@@ -148,6 +150,8 @@ test_that("can find intersections", {
 
   grid2 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
   grid3 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
+  grid2[grid2!=0] <- 1
+  grid3[grid3!=0] <- 1
 
   intersections <- find_intersections(grid2 + grid3)
 
@@ -180,9 +184,29 @@ test_that("example1 has a distance of 159", {
   expect_equal(answer, 159)
 })
 
-test_that("day 3 part 1 returns the incorrect answer", {
-  answer <- day03_part1()
-  print(answer)
+test_that("example1 takes 610 steps", {
+  input1 <- c("R75", "D30", "R83", "U83", "L12", "D49", "R71", "U7", "L72")
+  path1 <- parse_wire_path(input1)
 
-  expect_equal(answer, 273)
+  input2 <- c("U62", "R66", "U55", "R34", "D71", "R55", "D58", "R83")
+  path2 <- parse_wire_path(input2)
+
+  answer <- shortest_steps(path1, path2)
+
+  expect_equal(answer, 610)
 })
+
+# These are commented because they are slow to run
+#test_that("day 3 part 1 returns the incorrect answer", {
+#  answer <- day03_part1()
+#  print(answer)
+#
+#  expect_equal(answer, 273)
+#})
+
+#test_that("day 3 part 1 returns the incorrect answer", {
+#  answer <- day03_part2()
+#  print(answer)
+#
+#  expect_equal(answer, 15622)
+#})
