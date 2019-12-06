@@ -71,7 +71,7 @@ draw_wire_path <- function(matrix, row, col, path) {
         col <- col + 1
       }
 
-      matrix[row,col] <- matrix[row,col] + 1
+      matrix[row,col] <- 1
 
       length <- length - 1
     }
@@ -92,8 +92,10 @@ closest_intersection <- function(path1, path2) {
   dims <- wire_grid_dimensions(list(path1, path2))
   grid <- matrix(0, nrow=dims$height, ncol=dims$width)
 
-  grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
-  grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
+  grid2 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
+  grid3 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
+
+  grid <- grid2 + grid3
 
   intersections <- find_intersections(grid)
   central_node = c(dims$cy, dims$cx)

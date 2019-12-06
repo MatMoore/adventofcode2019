@@ -116,8 +116,8 @@ test_that("can identify wire crossings", {
   dims <- wire_grid_dimensions(list(path1, path2))
   grid <- matrix(0, nrow=dims$height, ncol=dims$width)
 
-  grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
-  grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
+  grid2 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
+  grid3 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
 
   expected <- rbind(
     c(1,1,1,1,1,1,1,0,0),
@@ -130,7 +130,7 @@ test_that("can identify wire crossings", {
     c(0,1,1,1,1,1,1,1,1)
   )
 
-  expect_equal(grid, expected)
+  expect_equal(grid2 + grid3, expected)
 })
 
 test_that("can find the manhattan distance", {
@@ -146,10 +146,10 @@ test_that("can find intersections", {
   dims <- wire_grid_dimensions(list(path1, path2))
   grid <- matrix(0, nrow=dims$height, ncol=dims$width)
 
-  grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
-  grid <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
+  grid2 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path1)
+  grid3 <- draw_wire_path(matrix=grid, row=dims$cy, col=dims$cx, path=path2)
 
-  intersections <- find_intersections(grid)
+  intersections <- find_intersections(grid2 + grid3)
 
   expected <- rbind(
     c(row=5, col=4),
@@ -176,12 +176,13 @@ test_that("example1 has a distance of 159", {
   path2 <- parse_wire_path(input2)
 
   answer <- closest_intersection(path1, path2)
+
   expect_equal(answer, 159)
 })
 
-#test_that("day 3 part 1 returns the correct answer", {
-#  answer <- day03_part1()
-#  print(answer)
+test_that("day 3 part 1 returns the incorrect answer", {
+  answer <- day03_part1()
+  print(answer)
 
-#  expect_equal(answer, 103)
-#})
+  expect_equal(answer, 273)
+})
