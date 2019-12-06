@@ -1,12 +1,12 @@
 # Advent of Code 2019 Day 1
 # https://adventofcode.com/2019/day/1
-#
-# TODO: change this to use notebooks?
-
-foo <- read.table('input/day-01-input.txt')
 
 # part 1
-sum(floor(foo$V1 / 3) - 2)
+day_01_part1 <- function() {
+  data('day_01_input')
+
+  return(sum(floor(day_01_input$mass / 3) - 2))
+}
 
 # part 2
 getFuel <- function (mass) {
@@ -18,4 +18,8 @@ getFuel <- function (mass) {
   }
 }
 
-sum(sapply(foo$V1, getFuel))
+day_01_part2 <- function() {
+  data('day_01_input')
+
+  return(sum(sapply(day_01_input$mass, getFuel)))
+}
